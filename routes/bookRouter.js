@@ -4,6 +4,6 @@ const authentication = require("../middlewares/authentication");
 const router = express.Router();
 
 router.get("/", Controller.getAllBook);
-// router.put("/:BookId", authentication, Controller.borrowBook);
+router.put("/:BookId", authentication, Controller.borrowBook);
 
 module.exports = router;
