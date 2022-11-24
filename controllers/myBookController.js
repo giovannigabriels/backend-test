@@ -1,4 +1,4 @@
-const { Book, Member, MyBook } = require("../models");
+const { Book, Member, MyBook, Penalty } = require("../models");
 
 class Controller {
   static async borrowBook(req, res, next) {
@@ -10,8 +10,23 @@ class Controller {
           id,
         },
       });
-      if (member.penalty) {
-        throw { name: "forbidden" };
+      const penalty = await Penalty.findOne({
+        where: {
+          MemberId: id,
+        },
+      });
+      if (penalty) {
+        const diffTime = new Date() - penalty.createdAt;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (diffDays <= 3) {
+          throw { name: "forbidden" };
+        } else {
+          await Penalty.destroy({
+            where: {
+              MemberId: id,
+            },
+          });
+        }
       }
       if (member.borrow >= 2) {
         throw { name: "already" };
@@ -35,7 +50,6 @@ class Controller {
       });
       res.status(201).json({ message: `success borrow ${book.title}` });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -70,16 +84,9 @@ class Controller {
       console.log(diffDays + " days");
       await member.decrement("borrow");
       if (diffDays > 7) {
-        await Member.update(
-          {
-            penalty: true,
-          },
-          {
-            where: {
-              id,
-            },
-          }
-        );
+        await Penalty.create({
+          MemberId: id,
+        });
       }
       await MyBook.destroy({
         where: {

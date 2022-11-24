@@ -2,24 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Members", {
+    await queryInterface.createTable("Penalties", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      code: {
-        type: Sequelize.STRING,
-      },
-      name: {
-        type: Sequelize.STRING,
-      },
-      borrow: {
+      MemberId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "Members",
+          },
+          key: "id",
+        },
       },
-      password: {
-        type: Sequelize.STRING,
+      isPenalty: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Members");
+    await queryInterface.dropTable("Penalties");
   },
 };
