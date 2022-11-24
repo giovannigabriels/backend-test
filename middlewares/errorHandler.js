@@ -23,6 +23,9 @@ const errorHandler = (error, req, res, next) => {
   } else if (error.name === "already") {
     code = 400;
     message = "Maximal borrow is 2 book";
+  } else if (error.name == "data not found") {
+    code = 404;
+    message = `data not found`;
   }
   res.status(code).json({ message });
 };
