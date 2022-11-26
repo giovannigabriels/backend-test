@@ -33,7 +33,7 @@
         "description": "Shows all existing members, The number of books being borrowed by each member",
         "responses": {
           "200": {
-            "description": "Success Get"
+            "description": "OK"
           },
           "500": {
             "description": "Internal server error"
@@ -66,13 +66,102 @@
         },
         "responses": {
           "200": {
-            "description": "Success Login"
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/books": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Check the book",
+        "description": "Shows all existing books and quantities, Books that are being borrowed are not counted",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/mybooks/{BookId}": {
+      "post": {
+        "tags": ["MyBooks"],
+        "summary": "Borrow Book",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "BookId",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Book Id"
+          },
+          {
+            "in": "header",
+            "name": "access_token",
+            "schema": {
+              "type": "string"
+            },
+            "description": "access_token"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "success created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["MyBooks"],
+        "summary": "Return Book",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "BookId",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Book Id"
+          },
+          {
+            "in": "header",
+            "name": "access_token",
+            "schema": {
+              "type": "string"
+            },
+            "description": "access_token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal server error"
