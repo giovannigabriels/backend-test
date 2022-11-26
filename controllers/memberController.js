@@ -6,6 +6,12 @@ class Controller {
   static async login(req, res, next) {
     try {
       const { code, password } = req.body;
+      if (!code) {
+        throw { name: "code missing" };
+      }
+      if (!password) {
+        throw { name: "password missing" };
+      }
       const member = await Member.findOne({
         where: {
           code,

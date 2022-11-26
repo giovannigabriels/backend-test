@@ -26,6 +26,12 @@ const errorHandler = (error, req, res, next) => {
   } else if (error.name == "data not found") {
     code = 404;
     message = `data not found`;
+  } else if (error.name == "code missing") {
+    code = 400;
+    message = `Code is required`;
+  } else if (error.name == "password missing") {
+    code = 400;
+    message = `Password is required`;
   }
   res.status(code).json({ message });
 };

@@ -1,0 +1,84 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API BOOK EIGEN",
+    "description": "Library Book",
+    "version": "1.0.0"
+  },
+  "_servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Member",
+      "description": "Member"
+    },
+    {
+      "name": "Books",
+      "description": "Books"
+    },
+    {
+      "name": "MyBooks",
+      "description": "MyBooks"
+    }
+  ],
+  "paths": {
+    "/member": {
+      "get": {
+        "tags": ["Member"],
+        "summary": "Member check",
+        "description": "Shows all existing members, The number of books being borrowed by each member",
+        "responses": {
+          "200": {
+            "description": "Success Get"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/member/login": {
+      "post": {
+        "tags": ["Member"],
+        "summary": "Login Member",
+        "description": "",
+        "consumes": "application/json",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success Login"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,7 +8,10 @@ const errorHandler = require("./middlewares/errorHandler");
 const router = require("./routes");
 const app = express();
 const port = 3000;
+const swaggerUi = require("swagger-ui-express");
+const apiDoc = require("./apidocs.json");
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(apiDoc));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(router);
